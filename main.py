@@ -1,17 +1,31 @@
-import win32api, win32con
 import time
 
-x = 0
-y = 0
-timer = 60
+import pyautogui
+import numpy as np
+
+screenWidth, screenHeight = pyautogui.size()
 
 
-def click(x, y):
-    win32api.SetCursorPos((x, y))
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, x, y, 0, 0)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, x, y, 0, 0)
+def move_curser():
+    new_velocity_vector = np.random.randint(-5, 5, size=2)
+    current_mouse_x, current_mouse_y = pyautogui.position()
+    mouse_x = current_mouse_x / screenWidth
+    mouse_y = current_mouse_y / screenHeight
+    if mouse_x > 0.75:
+        new_velocity_vector[0] = -abs(new_velocity_vector[0])
+    elif mouse_x < 0.25:
+        new_velocity_vector[0] = abs(new_velocity_vector[0])
+
+    if mouse_y > 0.75:
+        new_velocity_vector[1] = -abs(new_velocity_vector[1])
+    elif mouse_y < 0.25:
+        new_velocity_vector[1] = abs(new_velocity_vector[1])
+
+    print(mouse_x, mouse_y)
+
+    pyautogui.moveTo(current_mouse_x + new_velocity_vector[0], current_mouse_y + new_velocity_vector[1])
 
 
 while True:
-    click(x, y)
-    time.sleep(timer)
+    move_curser()
+    time.sleep(10)
