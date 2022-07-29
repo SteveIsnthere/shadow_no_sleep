@@ -27,4 +27,4 @@ def move_curser():
 
 while True:
     move_curser()
-    time.sleep(600)
+    time.sleep(1)
